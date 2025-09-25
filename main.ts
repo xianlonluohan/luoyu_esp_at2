@@ -91,17 +91,15 @@ namespace emakefun {
     export function restart(timeout_ms: number): void {
         const end_time = input.runningTime() + timeout_ms;
 
-        serial.writeString("AT+RST" + "\r\n");
-        // do {
-        //     let ss = serial.readBuffer(0);
-        //     if (ss.length > 0) {
-        //         basic.showString(ss.toString());
-        //     }
-        // } while (input.runningTime() < end_time + 8000);
 
         do {
-            // let re1 = writeCommand("AT+RST", "\r\nOK\r\n", 10000);
-            let re2 = emakefun.singleFindUtil("\r\nready\r\n", 10000);
+            basic.showString("1");
+            let re1 = writeCommand("AT+RST", "\r\nOK\r\n", 1000);
+            if (!re1) {
+                cancelSend();
+                continue;
+            }
+            let re2 = emakefun.singleFindUtil("\r\nready\r\n", 1000);
             if (!re2) {
                 basic.showString("22");
                 throw "Error: module restart failed.";
