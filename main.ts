@@ -89,41 +89,32 @@ namespace emakefun {
     //% timeout_ms.defl=2000
     //% weight=99
     export function restart(timeout_ms: number): void {
-        // const end_time = input.runningTime() + timeout_ms;
-        const end_time = input.runningTime() + timeout_ms + 8000;
-        // let re1 = writeCommand("AT+RST", "\r\nOK\r\n", 10000);
-        serial.writeString("AT+RST" + "\r\n");
+        const end_time = input.runningTime() + timeout_ms;
+
         do {
-            let ss = serial.readBuffer(0);
-            if (ss.length > 0) {
-                basic.showString(ss.toString());
+            let re1 = writeCommand("AT+RST", "\r\nOK\r\n", 10000);
+            // if (!re1) {
+            //     // basic.showString("111");
+            //     throw "Error: module restart failed.";
+            // }
+
+            let re2 = emakefun.singleFindUtil("\r\nready\r\n", 1000);
+            if (!re1) {
+                basic.showString("22");
+                throw "Error: module restart failed.";
+            }
+            if (re2) {
+                // basic.showString("test begin");
+                if (!writeCommand("AT", "\r\nOK\r\n", 100)) {
+                    basic.showString("test error");
+                    throw "Error: WiFi connection failed.";
+                }
+                basic.showString("test end");
+                return;
+            } else {
+                cancelSend();
             }
         } while (input.runningTime() < end_time);
-
-        // do {
-        //     let re1 = writeCommand("AT+RST", "\r\nOK\r\n", 10000);
-        //     if (!re1) {
-        //         // basic.showString("111");
-        //         throw "Error: module restart failed.";
-        //     }
-
-        //     let re2 = emakefun.singleFindUtil("\r\nready\r\n", 1000);
-        //     if (!re1) {
-        //         basic.showString("22");
-        //         throw "Error: module restart failed.";
-        //     }
-        //     if (re1 && re2) {
-        //         // basic.showString("test begin");
-        //         if (!writeCommand("AT", "\r\nOK\r\n", 100)) {
-        //             basic.showString("test error");
-        //             throw "Error: WiFi connection failed.";
-        //         }
-        //         // basic.showString("test end");
-        //         return;
-        //     } else {
-        //         cancelSend();
-        //     }
-        // } while (input.runningTime() < end_time);
         // basic.showString("restart Timeout!");
         throw "Error: module restart failed.";
     }
