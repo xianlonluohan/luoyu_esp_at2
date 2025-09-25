@@ -91,7 +91,7 @@ namespace emakefun {
     export function restart(timeout_ms: number): void {
         const end_time = input.runningTime() + timeout_ms;
 
-        // serial.writeString("AT+RST" + "\r\n");
+        serial.writeString("AT+RST" + "\r\n");
         // do {
         //     let ss = serial.readBuffer(0);
         //     if (ss.length > 0) {

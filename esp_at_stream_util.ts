@@ -89,43 +89,41 @@ namespace emakefun {
                 data = g_received_buffer.concat(data);
                 g_received_buffer = Buffer.create(0)
             }
-            if (data.length > 0) {
-                basic.showString("1:" + data.length.toString());
+            if (data.length > 0) { }
+            basic.showString("1:" + data.length.toString());
+            for (let i = 0; i < data.length; i++) {
+                if (data[i] == byte_target[offset]) {
+                    offset += 1;
+                    if (offset == byte_target.length) {
+                        g_received_buffer = data.slice(i + 1);
+                        return true
+                    };
+                    continue
+                }
+
+                const original_offset = offset
+                while (offset > 0) {
+                    offset -= 1;
+                    if (data[i] != byte_target[offset]) {
+                        continue;
+                    }
+                    if (offset == 0) {
+                        offset += 1;
+                        break;
+                    }
+                    const offset_diff = original_offset - offset
+                    let k = 0;
+                    for (k = 0; k < offset; k++) {
+                        if (byte_target[k] != byte_target[k + offset_diff]) {
+                            break;
+                        }
+                    }
+                    if (k == offset) {
+                        offset += 1;
+                        break;
+                    }
+                }
             }
-
-            // for (let i = 0; i < data.length; i++) {
-            //     if (data[i] == byte_target[offset]) {
-            //         offset += 1;
-            //         if (offset == byte_target.length) {
-            //             g_received_buffer = data.slice(i + 1);
-            //             return true
-            //         };
-            //         continue
-            //     }
-
-            //     const original_offset = offset
-            //     while (offset > 0) {
-            //         offset -= 1;
-            //         if (data[i] != byte_target[offset]) {
-            //             continue;
-            //         }
-            //         if (offset == 0) {
-            //             offset += 1;
-            //             break;
-            //         }
-            //         const offset_diff = original_offset - offset
-            //         let k = 0;
-            //         for (k = 0; k < offset; k++) {
-            //             if (byte_target[k] != byte_target[k + offset_diff]) {
-            //                 break;
-            //             }
-            //         }
-            //         if (k == offset) {
-            //             offset += 1;
-            //             break;
-            //         }
-            //     }
-            // }
         } while (input.runningTime() < end_time);
         return false;
     }
