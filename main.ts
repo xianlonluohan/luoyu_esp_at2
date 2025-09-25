@@ -45,7 +45,7 @@ namespace emakefun {
         if (re == NaN) {
             basic.showString("write Timeout!");
         } else {
-            basic.showString("write re:" + re.toString());
+            basic.showString("wre:" + re.toString());
             let s11 = 0
         }
         return re == 0
