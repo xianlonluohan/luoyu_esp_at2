@@ -94,10 +94,8 @@ namespace emakefun {
         const end_time = input.runningTime() + timeout_ms;
         do {
             let re1 = writeCommand("AT+RST", "\r\nOK\r\n", 100);
-            basic.showString("OK end");
 
             let re2 = emakefun.singleFindUtil("\r\nready\r\n", 1000);
-            basic.showString("ready end");
             if (re1 && re2) {
                 basic.showString("test begin");
                 if (!writeCommand("AT", "\r\nOK\r\n", 100)) {
