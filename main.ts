@@ -42,12 +42,8 @@ namespace emakefun {
         const targets = [success_target, "\r\nERROR\r\n", "busy p...\r\n"];
         serial.writeString(command + "\r\n");
         let re = emakefun.multiFindUtil(targets, timeout_ms);
-        if (re == NaN) {
-            basic.showString("write Timeout!");
-        } else {
-            basic.showString("wre:" + re.toString());
-            let s11 = 0
-        }
+
+        basic.showString("w:" + re.toString());
         return re == 0
     }
 
