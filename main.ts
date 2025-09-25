@@ -106,7 +106,6 @@ namespace emakefun {
 
 
         do {
-            basic.showString("1");
             let re1 = writeCommand("AT+RST", "\r\nOK\r\n", 1000);
             if (!re1) {
                 cancelSend();
