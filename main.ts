@@ -142,7 +142,7 @@ namespace emakefun {
     export function cancelSend(): void {
         basic.pause(30);
         serial.writeString("+++")
-        const end_time = input.runningTime() + 500;
+        const end_time = input.runningTime() + 17000;
         do {
             basic.showString("1:" + serial.readBuffer(0).toString());
         } while (input.runningTime() < end_time);
