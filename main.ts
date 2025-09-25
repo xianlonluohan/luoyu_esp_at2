@@ -45,7 +45,7 @@ namespace emakefun {
         if (re == NaN) {
             basic.showString("write Timeout!");
         } else {
-            // basic.showString("write re:" + re.toString());
+            basic.showString("write re:" + re.toString());
             let s11 = 0
         }
         return re == 0
@@ -96,7 +96,7 @@ namespace emakefun {
         do {
             let re1 = writeCommand("AT+RST", "\r\nOK\r\n", 100);
             if (!re1) {
-                basic.showString("111");
+                // basic.showString("111");
                 throw "Error: module restart failed.";
             }
 
