@@ -93,13 +93,8 @@ namespace emakefun {
 
         do {
             let re1 = writeCommand("AT+RST", "\r\nOK\r\n", 10000);
-            // if (!re1) {
-            //     // basic.showString("111");
-            //     throw "Error: module restart failed.";
-            // }
-
             let re2 = emakefun.singleFindUtil("\r\nready\r\n", 1000);
-            if (!re1) {
+            if (!re2) {
                 basic.showString("22");
                 throw "Error: module restart failed.";
             }
