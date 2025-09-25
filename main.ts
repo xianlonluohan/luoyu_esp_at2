@@ -90,34 +90,47 @@ namespace emakefun {
     //% weight=99
     export function restart(timeout_ms: number): void {
         const end_time = input.runningTime() + timeout_ms;
-
-
         do {
-            basic.showString("1");
-            let re1 = writeCommand("AT+RST", "\r\nOK\r\n", 1000);
-            if (!re1) {
-                cancelSend();
-                continue;
-            }
-            let re2 = emakefun.singleFindUtil("\r\nready\r\n", 1000);
-            if (!re2) {
-                basic.showString("22");
-                throw "Error: module restart failed.";
-            }
-            if (re2) {
-                // basic.showString("test begin");
+            if (writeCommand("AT+RST", "\r\nOK\r\n", 100) && emakefun.singleFindUtil("\r\nready\r\n", 1000)) {
                 if (!writeCommand("AT", "\r\nOK\r\n", 100)) {
-                    basic.showString("test error");
                     throw "Error: WiFi connection failed.";
                 }
-                basic.showString("test end");
                 return;
             } else {
                 cancelSend();
             }
         } while (input.runningTime() < end_time);
-        // basic.showString("restart Timeout!");
         throw "Error: module restart failed.";
+
+        // const end_time = input.runningTime() + timeout_ms;
+
+
+        // do {
+        //     basic.showString("1");
+        //     let re1 = writeCommand("AT+RST", "\r\nOK\r\n", 1000);
+        //     if (!re1) {
+        //         cancelSend();
+        //         continue;
+        //     }
+        //     let re2 = emakefun.singleFindUtil("\r\nready\r\n", 1000);
+        //     if (!re2) {
+        //         basic.showString("22");
+        //         throw "Error: module restart failed.";
+        //     }
+        //     if (re2) {
+        //         // basic.showString("test begin");
+        //         if (!writeCommand("AT", "\r\nOK\r\n", 100)) {
+        //             basic.showString("test error");
+        //             throw "Error: WiFi connection failed.";
+        //         }
+        //         basic.showString("test end");
+        //         return;
+        //     } else {
+        //         cancelSend();
+        //     }
+        // } while (input.runningTime() < end_time);
+        // // basic.showString("restart Timeout!");
+        // throw "Error: module restart failed.";
     }
 
     /**
