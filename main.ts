@@ -144,7 +144,7 @@ namespace emakefun {
         serial.writeString("+++")
         const end_time = input.runningTime() + 17000;
         do {
-            basic.showString("1:" + serial.readBuffer(0).toString());
+            basic.showString("2:" + serial.readBuffer(0).toString());
         } while (input.runningTime() < end_time);
         throw "Error: module cancel send failed.";
         // if (!emakefun.singleFindUtil("\r\nSEND Canceled\r\n", 500)) {
