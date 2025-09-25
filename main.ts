@@ -95,8 +95,16 @@ namespace emakefun {
         const end_time = input.runningTime() + timeout_ms;
         do {
             let re1 = writeCommand("AT+RST", "\r\nOK\r\n", 100);
+            if (!re1) {
+                basic.showString("111");
+                throw "Error: module restart failed.";
+            }
 
             let re2 = emakefun.singleFindUtil("\r\nready\r\n", 1000);
+            if (!re1) {
+                basic.showString("22");
+                throw "Error: module restart failed.";
+            }
             if (re1 && re2) {
                 // basic.showString("test begin");
                 if (!writeCommand("AT", "\r\nOK\r\n", 100)) {
@@ -109,7 +117,7 @@ namespace emakefun {
                 cancelSend();
             }
         } while (input.runningTime() < end_time);
-        basic.showString("restart Timeout!");
+        // basic.showString("restart Timeout!");
         throw "Error: module restart failed.";
     }
 
