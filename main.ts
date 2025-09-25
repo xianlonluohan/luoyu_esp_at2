@@ -93,11 +93,9 @@ namespace emakefun {
     export function restart(timeout_ms: number): void {
         const end_time = input.runningTime() + timeout_ms;
         do {
-            basic.showString("OK begin");
             let re1 = writeCommand("AT+RST", "\r\nOK\r\n", 100);
             basic.showString("OK end");
 
-            basic.showString("ready begin");
             let re2 = emakefun.singleFindUtil("\r\nready\r\n", 1000);
             basic.showString("ready end");
             if (re1 && re2) {

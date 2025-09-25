@@ -1,8 +1,12 @@
+let last_publish_time = 0
 let message: { topic: string; message: string; } = null
 const MQTT_TOPIC = `emakefun/sensor/${control.deviceSerialNumber()}/testtopic`
 let display_state = true
-let last_publish_time = 0
-
+serial.redirect(
+    SerialPin.P1,
+    SerialPin.P0,
+    BaudRate.BaudRate9600
+)
 emakefun.initEspAtModule()
 emakefun.wifiConnect("emakefun", "501416wf")
 emakefun.mqttUserConfig(
