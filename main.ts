@@ -141,15 +141,11 @@ namespace emakefun {
     export function cancelSend(): void {
         basic.pause(30);
         serial.writeString("+++")
-        const end_time = input.runningTime() + 17000;
-        do {
-            basic.showString("2:" + serial.readBuffer(0).toString());
-        } while (input.runningTime() < end_time);
-        throw "Error: module cancel send failed.";
-        // if (!emakefun.singleFindUtil("\r\nSEND Canceled\r\n", 500)) {
-        //     basic.showString("cancel Error!");
-        //     throw "Error: module cancel send failed.";
-        // }
+        const end_time = input.runningTime();
+        if (!emakefun.singleFindUtil("\r\nSEND Canceled\r\n", 500)) {
+            basic.showString("cancel Error!");
+            throw "Error: module cancel send failed.";
+        }
     }
 
     /**
