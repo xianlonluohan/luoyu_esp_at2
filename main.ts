@@ -92,7 +92,7 @@ namespace emakefun {
         const end_time = input.runningTime() + timeout_ms;
 
         do {
-            let re1 = writeCommand("AT+RST", "\r\nOK\r\n", 10000);
+            // let re1 = writeCommand("AT+RST", "\r\nOK\r\n", 10000);
             let re2 = emakefun.singleFindUtil("\r\nready\r\n", 1000);
             if (!re2) {
                 basic.showString("22");
