@@ -41,10 +41,7 @@ namespace emakefun {
         }
         const targets = [success_target, "\r\nERROR\r\n", "busy p...\r\n"];
         serial.writeString(command + "\r\n");
-        let re = emakefun.multiFindUtil(targets, timeout_ms);
-
-        basic.showString("w:" + re.toString());
-        return re == 0
+        return emakefun.multiFindUtil(targets, timeout_ms) == 0;
     }
 
     /**
@@ -109,6 +106,7 @@ namespace emakefun {
             let re1 = writeCommand("AT+RST", "\r\nOK\r\n", 1000);
             if (!re1) {
                 // cancelSend();
+                basic.showString("11");
                 continue;
             }
             let re2 = emakefun.singleFindUtil("\r\nready\r\n", 1000);
