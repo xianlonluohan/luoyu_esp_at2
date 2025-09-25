@@ -90,7 +90,7 @@ namespace emakefun {
     export function restart(timeout_ms: number): void {
         const end_time = input.runningTime() + timeout_ms;
         do {
-            let re1 = writeCommand("AT+RST", "\r\nOK\r\n", 5000);
+            let re1 = writeCommand("AT+RST", "\r\nOK\r\n", 10000);
             if (!re1) {
                 // basic.showString("111");
                 throw "Error: module restart failed.";
