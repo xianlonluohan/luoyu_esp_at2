@@ -108,7 +108,7 @@ namespace emakefun {
         do {
             let re1 = writeCommand("AT+RST", "\r\nOK\r\n", 1000);
             if (!re1) {
-                cancelSend();
+                // cancelSend();
                 continue;
             }
             let re2 = emakefun.singleFindUtil("\r\nready\r\n", 1000);
@@ -141,7 +141,6 @@ namespace emakefun {
     export function cancelSend(): void {
         basic.pause(30);
         serial.writeString("+++")
-        const end_time = input.runningTime();
         if (!emakefun.singleFindUtil("\r\nSEND Canceled\r\n", 500)) {
             basic.showString("cancel Error!");
             throw "Error: module cancel send failed.";
