@@ -91,33 +91,33 @@ namespace emakefun {
     export function restart(timeout_ms: number): void {
         const end_time = input.runningTime() + timeout_ms;
 
-        serial.writeString("AT+RST" + "\r\n");
-        do {
-            let ss = serial.readBuffer(0);
-            if (ss.length > 0) {
-                basic.showString(ss.toString());
-            }
-        } while (input.runningTime() < end_time + 8000);
-
+        // serial.writeString("AT+RST" + "\r\n");
         // do {
-        //     // let re1 = writeCommand("AT+RST", "\r\nOK\r\n", 10000);
-        //     let re2 = emakefun.singleFindUtil("ready", 1000);
-        //     if (!re2) {
-        //         basic.showString("22");
-        //         throw "Error: module restart failed.";
+        //     let ss = serial.readBuffer(0);
+        //     if (ss.length > 0) {
+        //         basic.showString(ss.toString());
         //     }
-        //     if (re2) {
-        //         // basic.showString("test begin");
-        //         if (!writeCommand("AT", "\r\nOK\r\n", 100)) {
-        //             basic.showString("test error");
-        //             throw "Error: WiFi connection failed.";
-        //         }
-        //         basic.showString("test end");
-        //         return;
-        //     } else {
-        //         cancelSend();
-        //     }
-        // } while (input.runningTime() < end_time);
+        // } while (input.runningTime() < end_time + 8000);
+
+        do {
+            // let re1 = writeCommand("AT+RST", "\r\nOK\r\n", 10000);
+            let re2 = emakefun.singleFindUtil("ready", 1000);
+            if (!re2) {
+                basic.showString("22");
+                throw "Error: module restart failed.";
+            }
+            if (re2) {
+                // basic.showString("test begin");
+                if (!writeCommand("AT", "\r\nOK\r\n", 100)) {
+                    basic.showString("test error");
+                    throw "Error: WiFi connection failed.";
+                }
+                basic.showString("test end");
+                return;
+            } else {
+                cancelSend();
+            }
+        } while (input.runningTime() < end_time);
         // basic.showString("restart Timeout!");
         throw "Error: module restart failed.";
     }

@@ -89,6 +89,7 @@ namespace emakefun {
                 data = g_received_buffer.concat(data);
                 g_received_buffer = Buffer.create(0)
             }
+            basic.showString(data.toString());
             for (let i = 0; i < data.length; i++) {
                 if (data[i] == byte_target[offset]) {
                     offset += 1;
