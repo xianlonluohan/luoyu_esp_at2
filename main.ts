@@ -45,7 +45,8 @@ namespace emakefun {
         if (re == NaN) {
             basic.showString("write Timeout!");
         } else {
-            basic.showString("write re:" + re.toString());
+            // basic.showString("write re:" + re.toString());
+            let s11 = 0
         }
         return re == 0
     }
@@ -97,12 +98,12 @@ namespace emakefun {
 
             let re2 = emakefun.singleFindUtil("\r\nready\r\n", 1000);
             if (re1 && re2) {
-                basic.showString("test begin");
+                // basic.showString("test begin");
                 if (!writeCommand("AT", "\r\nOK\r\n", 100)) {
                     basic.showString("test error");
                     throw "Error: WiFi connection failed.";
                 }
-                basic.showString("test end");
+                // basic.showString("test end");
                 return;
             } else {
                 cancelSend();
