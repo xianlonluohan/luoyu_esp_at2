@@ -57,23 +57,28 @@ namespace emakefun {
     //% baud_rate.defl=BaudRate.BaudRate9600
     //% weight=100
     export function initEspAtModule(): void {
-        // basic.pause(400);
-        serial.readBuffer(0);
-        restart(2000);
-        const at_commands = [
-            "ATE0",
-            "AT+CWINIT=1",
-            "AT+CWMODE=1",
-            "AT+CIPDINFO=1",
-            "AT+CWAUTOCONN=0",
-            "AT+CWDHCP=1,1"
-        ];
-        for (let command of at_commands) {
-            if (!writeCommand(command, "\r\nOK\r\n", 500)) {
-                basic.showString("Init Error! :" + command);
-                throw "Error: module init failed.";
-            }
+        serial.writeString("AT+RST" + "\r\n");
+        while (true) {
+            basic.showString("1:" + serial.readString());
         }
+
+        // basic.pause(400);
+        // serial.readBuffer(0);
+        // restart(2000);
+        // const at_commands = [
+        //     "ATE0",
+        //     "AT+CWINIT=1",
+        //     "AT+CWMODE=1",
+        //     "AT+CIPDINFO=1",
+        //     "AT+CWAUTOCONN=0",
+        //     "AT+CWDHCP=1,1"
+        // ];
+        // for (let command of at_commands) {
+        //     if (!writeCommand(command, "\r\nOK\r\n", 500)) {
+        //         basic.showString("Init Error! :" + command);
+        //         throw "Error: module init failed.";
+        //     }
+        // }
     }
 
     /**
