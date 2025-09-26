@@ -57,9 +57,9 @@ namespace emakefun {
     //% baud_rate.defl=BaudRate.BaudRate9600
     //% weight=100
     export function initEspAtModule(): void {
-        // serial.writeString("AT+RST" + "\r\n");
+        serial.writeString("AT+RST" + "\r\n");
         while (true) {
-            basic.showString("1:" + serial.readString());
+            basic.showString("1:" + serial.readBuffer(0).toString());
         }
 
         // basic.pause(400);
