@@ -6,7 +6,6 @@
     "emakefun.connectionScheme": "MQTT连接方案选项",
     "emakefun.restart": "重启ESP-AT模块",
     "emakefun.restart|param|timeout_ms": "等待响应的超时时间（毫秒）",
-    "emakefun.cancelSend": "取消发送",
     "emakefun.wifiConnect": "连接WiFi",
     "emakefun.wifiConnect|param|ssid": "WiFi SSID",
     "emakefun.wifiConnect|param|password": "WiFi 密码",

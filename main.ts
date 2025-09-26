@@ -41,7 +41,20 @@ namespace emakefun {
         }
         const targets = [success_target, "\r\nERROR\r\n", "busy p...\r\n"];
         serial.writeString(command + "\r\n");
-        return emakefun.multiFindUtil(targets, timeout_ms) == 0;
+        return emakefun.multiFindUtil(targets, timeout_ms) == 0
+    }
+
+    /**
+     * Cancel send.
+     */
+    export function cancelSend(): boolean {
+        basic.pause(30);
+        serial.writeString("+++")
+        if (!emakefun.singleFindUtil("\r\nSEND Canceled\r\n", 500)) {
+            serial.readBuffer(0);
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -57,28 +70,20 @@ namespace emakefun {
     //% baud_rate.defl=BaudRate.BaudRate9600
     //% weight=100
     export function initEspAtModule(): void {
-        serial.writeString("AT+RST" + "\r\n");
-        while (true) {
-            basic.showString("1:" + serial.readBuffer(0).toString());
+        restart(2000);
+        const at_commands = [
+            "ATE0",
+            "AT+CWINIT=1",
+            "AT+CWMODE=1",
+            "AT+CIPDINFO=1",
+            "AT+CWAUTOCONN=0",
+            "AT+CWDHCP=1,1"
+        ];
+        for (let command of at_commands) {
+            if (!writeCommand(command, "\r\nOK\r\n", 500)) {
+                throw "Error: module init failed.";
+            }
         }
-
-        // basic.pause(400);
-        // serial.readBuffer(0);
-        // restart(2000);
-        // const at_commands = [
-        //     "ATE0",
-        //     "AT+CWINIT=1",
-        //     "AT+CWMODE=1",
-        //     "AT+CIPDINFO=1",
-        //     "AT+CWAUTOCONN=0",
-        //     "AT+CWDHCP=1,1"
-        // ];
-        // for (let command of at_commands) {
-        //     if (!writeCommand(command, "\r\nOK\r\n", 500)) {
-        //         basic.showString("Init Error! :" + command);
-        //         throw "Error: module init failed.";
-        //     }
-        // }
     }
 
     /**
@@ -91,63 +96,18 @@ namespace emakefun {
     //% timeout_ms.defl=2000
     //% weight=99
     export function restart(timeout_ms: number): void {
-        // const end_time = input.runningTime() + timeout_ms;
-        // do {
-        //     if (writeCommand("AT+RST", "\r\nOK\r\n", 100) && emakefun.singleFindUtil("\r\nready\r\n", 1000)) {
-        //         if (!writeCommand("AT", "\r\nOK\r\n", 100)) {
-        //             throw "Error: WiFi connection failed.";
-        //         }
-        //         return;
-        //     } else {
-        //         cancelSend();
-        //     }
-        // } while (input.runningTime() < end_time);
-        // throw "Error: module restart failed.";
-
         const end_time = input.runningTime() + timeout_ms;
-
-
         do {
-            let re1 = writeCommand("AT+RST", "\r\nOK\r\n", 1000);
-            if (!re1) {
-                // cancelSend();
-                basic.showString("11");
-                continue;
-            }
-            let re2 = emakefun.singleFindUtil("\r\nready\r\n", 1000);
-            if (!re2) {
-                basic.showString("22");
-                throw "Error: module restart failed.";
-            }
-            if (re2) {
-                // basic.showString("test begin");
+            if (writeCommand("AT+RST", "\r\nOK\r\n", 100) && emakefun.singleFindUtil("\r\nready\r\n", 1000)) {
                 if (!writeCommand("AT", "\r\nOK\r\n", 100)) {
-                    basic.showString("test error");
                     throw "Error: WiFi connection failed.";
                 }
-                basic.showString("test end");
                 return;
             } else {
                 cancelSend();
             }
         } while (input.runningTime() < end_time);
-        // basic.showString("restart Timeout!");
         throw "Error: module restart failed.";
-    }
-
-    /**
-     * Cancel send.
-     */
-    //% block="cancel send"
-    //% subcategory="EspAt"
-    //% weight=98
-    export function cancelSend(): void {
-        basic.pause(30);
-        serial.writeString("+++")
-        if (!emakefun.singleFindUtil("\r\nSEND Canceled\r\n", 500)) {
-            basic.showString("cancel Error!");
-            throw "Error: module cancel send failed.";
-        }
     }
 
     /**
